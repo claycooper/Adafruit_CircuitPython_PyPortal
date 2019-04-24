@@ -775,13 +775,13 @@ class PyPortal:
         return values
 
     def curl(self, URL):
-        if not URL:
+        if URL:
             self._connect_esp()
             # great, lets get the data
-            print("Retrieving data...", end='')
+            print("Retrieving data from URL...", URL)
             self.neo_status((100, 100, 0))   # yellow = fetching data
             gc.collect()
-            r = requests.get(self._url, headers=self._headers)
+            r = requests.get(URL, headers=self._headers)
             gc.collect()
             self.neo_status((0, 0, 100))   # green = got data
             print("Reply is OK!")
@@ -789,6 +789,8 @@ class PyPortal:
             r = None
             gc.collect()
             return values
+        else:
+            return None
       
     def show_QR(self, qr_data, qr_size=128, position=None):  # pylint: disable=invalid-name
         """Display a QR code on the TFT
